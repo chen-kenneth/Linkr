@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons"; // Power icon
 import useAppwrite from "../../lib/useAppwrite";
 import { getAllPosts } from "../../lib/appwrite";
 import { VideoCard } from "../../components";
-import { checkIfLocationEnabled, getCurrentLocation } from "../../lib/location"; // Location functions
+import { checkIfLocationEnabled, requestLocationPermissions, watchCurrentLocation } from "../../lib/location"; // Location functions
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
@@ -14,22 +14,39 @@ const Home = () => {
   const [powerOn, setPowerOn] = useState(false); // Power button state
   const [userLocation, setUserLocation] = useState(null); // State to store location
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState('Location Loading...');
+  const [locationSubscription, setLocationSubscription] = useState(null); // For managing location subscription
 
   // Check if location services are enabled and fetch the location
   useEffect(() => {
     const enableLocationServices = async () => {
       const locationEnabled = await checkIfLocationEnabled();
       if (locationEnabled) {
-        getCurrentLocation((location) => {
-          setUserLocation(location); // Store location (latitude, longitude, and address)
-          setDisplayCurrentAddress(location.address); // Update address to display
-        });
+        const permissionGranted = await requestLocationPermissions();
+        if (permissionGranted) {
+          // Start watching the location with updates every 3 seconds
+          const subscription = await watchCurrentLocation((location) => {
+            setUserLocation(location); // Store location (latitude, longitude, and address)
+            setDisplayCurrentAddress(location.address); // Update address to display
+          });
+          setLocationSubscription(subscription); // Save the subscription
+        }
       }
     };
 
     if (powerOn) {
-      enableLocationServices(); // Fetch location only if power is on
+      enableLocationServices(); // Start watching location only if power is on
+    } else if (locationSubscription) {
+      // Stop watching location when power is turned off
+      locationSubscription.remove();
+      setLocationSubscription(null);
     }
+
+    return () => {
+      // Cleanup subscription when the component unmounts
+      if (locationSubscription) {
+        locationSubscription.remove();
+      }
+    };
   }, [powerOn]); // Run whenever powerOn state changes
 
   const onRefresh = async () => {

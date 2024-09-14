@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
-import { checkIfLocationEnabled, getCurrentLocation } from "../lib/location"; // Import the location functions
+import { checkIfLocationEnabled, requestLocationPermissions, getCurrentLocation } from "../lib/location"; // Import the location functions
 
 const Welcome = () => {
   const { loading, isLogged } = useGlobalContext();
@@ -17,7 +17,10 @@ const Welcome = () => {
     const fetchLocation = async () => {
       const locationEnabled = await checkIfLocationEnabled();
       if (locationEnabled) {
-        await getCurrentLocation(setLocation); // Fetch the location and set state
+        const permissionGranted = await requestLocationPermissions();
+        if (permissionGranted) {
+          await getCurrentLocation(setLocation); // Fetch the location and set state
+        }
       }
     };
 
@@ -69,9 +72,17 @@ const Welcome = () => {
 
           {/* Display location (optional) */}
           {location && (
-            <Text className="text-sm font-pregular text-gray-100 mt-4 text-center">
-              Location: {location.address}
-            </Text>
+            <View className="mt-4">
+              <Text className="text-sm font-pregular text-gray-100 text-center">
+                Location: {location.address}
+              </Text>
+              <Text className="text-sm font-pregular text-gray-100 text-center">
+                Latitude: {location.latitude}
+              </Text>
+              <Text className="text-sm font-pregular text-gray-100 text-center">
+                Longitude: {location.longitude}
+              </Text>
+            </View>
           )}
 
           <CustomButton
