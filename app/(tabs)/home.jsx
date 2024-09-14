@@ -1,17 +1,36 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, RefreshControl, Text, View, TouchableOpacity } from "react-native";
-
+import { FlatList, RefreshControl, View, TouchableOpacity, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons"; // Power icon
 import useAppwrite from "../../lib/useAppwrite";
 import { getAllPosts } from "../../lib/appwrite";
-import { EmptyState, VideoCard } from "../../components";
-import { Ionicons } from "@expo/vector-icons"; // Power icon (Ionicons provides the power icon)
+import { VideoCard } from "../../components";
+import { checkIfLocationEnabled, getCurrentLocation } from "../../lib/location"; // Location functions
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
 
   const [refreshing, setRefreshing] = useState(false);
   const [powerOn, setPowerOn] = useState(false); // Power button state
+  const [userLocation, setUserLocation] = useState(null); // State to store location
+  const [displayCurrentAddress, setDisplayCurrentAddress] = useState('Location Loading...');
+
+  // Check if location services are enabled and fetch the location
+  useEffect(() => {
+    const enableLocationServices = async () => {
+      const locationEnabled = await checkIfLocationEnabled();
+      if (locationEnabled) {
+        getCurrentLocation((location) => {
+          setUserLocation(location); // Store location (latitude, longitude, and address)
+          setDisplayCurrentAddress(location.address); // Update address to display
+        });
+      }
+    };
+
+    if (powerOn) {
+      enableLocationServices(); // Fetch location only if power is on
+    }
+  }, [powerOn]); // Run whenever powerOn state changes
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -25,7 +44,7 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary flex-1">
+    <SafeAreaView className="flex-1 bg-primary">
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
@@ -39,7 +58,7 @@ const Home = () => {
           />
         )}
         ListHeaderComponent={() => (
-          <View className="flex my-6 px-4 space-y-6 items-center">
+          <View className="flex-1 justify-center items-center mt-40">
             {/* Power Button */}
             <TouchableOpacity
               className={`w-24 h-24 rounded-full bg-white justify-center items-center border-4 ${
@@ -47,9 +66,17 @@ const Home = () => {
               }`}
               onPress={togglePower}
             >
-              {/* Power Icon */}
               <Ionicons name="power" size={50} color={powerOn ? "green" : "red"} />
             </TouchableOpacity>
+
+            {/* Display Location Address and Coordinates if Power is On */}
+            {powerOn && userLocation && (
+              <View className="mt-6">
+                <Text className="text-lg font-pregular text-center">{displayCurrentAddress}</Text>
+                <Text className="text-lg font-pregular text-center">Latitude: {userLocation.latitude}</Text>
+                <Text className="text-lg font-pregular text-center">Longitude: {userLocation.longitude}</Text>
+              </View>
+            )}
           </View>
         )}
         refreshControl={

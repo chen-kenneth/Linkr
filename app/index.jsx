@@ -1,14 +1,28 @@
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
 import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
+import { checkIfLocationEnabled, getCurrentLocation } from "../lib/location"; // Import the location functions
 
 const Welcome = () => {
   const { loading, isLogged } = useGlobalContext();
+  const [location, setLocation] = useState(null); // State to store location
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const locationEnabled = await checkIfLocationEnabled();
+      if (locationEnabled) {
+        await getCurrentLocation(setLocation); // Fetch the location and set state
+      }
+    };
+
+    fetchLocation(); // Run the location tracking on app load
+  }, []);
 
   if (!loading && isLogged) return <Redirect href="/home" />;
 
@@ -38,7 +52,7 @@ const Welcome = () => {
             <Text className="text-3xl text-white font-bold text-center">
               Discover Endless{"\n"}
               Possibilities with{" "}
-              <Text className="text-secondary-200">Frindr</Text>
+              <Text className="text-secondary-200">Link</Text>
             </Text>
 
             <Image
@@ -50,8 +64,15 @@ const Welcome = () => {
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with Frindr
+            Exploration with Link
           </Text>
+
+          {/* Display location (optional) */}
+          {location && (
+            <Text className="text-sm font-pregular text-gray-100 mt-4 text-center">
+              Location: {location.address}
+            </Text>
+          )}
 
           <CustomButton
             title="Continue with Email"
