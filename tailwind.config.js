@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // Files which will be styled
@@ -7,29 +6,31 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#FFFFFF",
+        primary: "#FFFFFF", // Used for the background or main elements
         secondary: {
           DEFAULT: "#FF9C01",
           100: "#FF9001",
           200: "#FF8E01",
         },
         black: {
-          DEFAULT: "#000",
-          100: "#1E1E2D",
+          DEFAULT: "#000", // For the text or icons
+          100: "#1E1E2D", // Darker elements or overlays
           200: "#232533",
         },
         gray: {
-          100: "#CDCDE0",
+          100: "#CDCDE0", // For subtle elements like borders or background shading
         },
+        green: "#00FF00", // Color for "power on" state (we can add this)
+        red: "#FF0000", // Color for "power off" state
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
         pextralight: ["Poppins-ExtraLight", "sans-serif"],
         plight: ["Poppins-Light", "sans-serif"],
-        pregular: ["Poppins-Regular", "sans-serif"],
-        pmedium: ["Poppins-Medium", "sans-serif"],
+        pregular: ["Poppins-Regular", "sans-serif"], // Regular for general text
+        pmedium: ["Poppins-Medium", "sans-serif"], // Medium for buttons
         psemibold: ["Poppins-SemiBold", "sans-serif"],
-        pbold: ["Poppins-Bold", "sans-serif"],
+        pbold: ["Poppins-Bold", "sans-serif"], // Bold for important text (like the Power button)
         pextrabold: ["Poppins-ExtraBold", "sans-serif"],
         pblack: ["Poppins-Black", "sans-serif"],
       },
@@ -37,4 +38,3 @@ module.exports = {
   },
   plugins: [],
 };
-
