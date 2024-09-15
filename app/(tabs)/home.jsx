@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, RefreshControl, View, TouchableOpacity, Text } from "react-native";
+import { FlatList, RefreshControl, View, TouchableOpacity, Text, PanResponder, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Power icon
+import ExpandableList from "../../components/ExpandableList";
 import useAppwrite from "../../lib/useAppwrite";
 import { getAllPosts } from "../../lib/appwrite";
 import { VideoCard } from "../../components";
@@ -9,6 +10,14 @@ import { checkIfLocationEnabled, requestLocationPermissions, watchCurrentLocatio
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
+
+  const sample_data = [
+    { id: 1, title: "Kenneth", content: "Interests: Music, Programming" },
+    { id: 2, title: "Wasif", content: "Interests: Sports, Technology" },
+    { id: 3, title: "Justin", content: "Interests: Gaming, Design" },
+    { id: 4, title: "Raihaan", content: "Interests: Art, Reading" }
+  ];
+  
 
   const [refreshing, setRefreshing] = useState(false);
   const [powerOn, setPowerOn] = useState(false); // Power button state
@@ -77,8 +86,9 @@ const Home = () => {
         ListHeaderComponent={() => (
           <View className="flex-1 justify-center items-center mt-40">
             {/* Power Button */}
+            {/* CHANGE SIZE OF BUTTON AND/OR ICON */}
             <TouchableOpacity
-              className={`w-24 h-24 rounded-full bg-white justify-center items-center border-4 ${
+              className={`w-28 h-28 rounded-full bg-white justify-center items-center border-4 ${
                 powerOn ? "border-green" : "border-red"
               }`}
               onPress={togglePower}
@@ -100,6 +110,7 @@ const Home = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      <ExpandableList data={sample_data}/>
     </SafeAreaView>
   );
 };

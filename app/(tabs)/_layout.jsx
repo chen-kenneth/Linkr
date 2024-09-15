@@ -1,27 +1,26 @@
 import { StatusBar } from "expo-status-bar";
-import { Redirect, Tabs } from "expo-router";
-import { Image, Text, View } from "react-native";
+import { Redirect, Tabs, router } from "expo-router"; // Import 'router' for navigation
+import { Image, Text, View, TouchableOpacity } from "react-native";
 
 import { icons } from "../../constants";
 import { Loader } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
-const TabIcon = ({ icon, color, name, focused }) => {
+const TabIcon = ({ icon, color, name, focused, onPress }) => {
   return (
-    <View className="flex items-center justify-center gap-2">
+    <TouchableOpacity onPress={onPress} style={{ alignItems: "center", justifyContent: "center" }}>
       <Image
         source={icon}
         resizeMode="contain"
-        tintColor={color}
-        className="w-6 h-6"
+        style={{ tintColor: color, width: 24, height: 24 }} // Use style to apply tintColor
       />
       <Text
         className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
-        style={{ color: color }}
+        style={{ color: color, marginTop: 4 }} // Adds a gap between the icon and the text
       >
         {name}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -32,16 +31,45 @@ const TabLayout = () => {
 
   return (
     <>
+      {/* Manually place the tab icons at the top */}
+      <View
+        style={{
+          backgroundColor: "#161622",
+          borderBottomWidth: 1,
+          borderBottomColor: "#232533",
+          borderTopWidth: 50,
+          borderTopColor: "#161622",
+          height: 120, // Ensure this height is appropriate for the tab bar
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingHorizontal: 50,
+          alignItems: "center", // Align icons vertically in the center
+        }}
+      >
+        <TabIcon
+          icon={icons.home}
+          color="#FFA001"
+          name="Home"
+          focused={true}
+          onPress={() => router.push("/home")} // Navigate to Home screen
+        />
+
+        <TabIcon
+          icon={icons.profile}
+          color="#FFA001"
+          name="Profile"
+          focused={true}
+          onPress={() => router.push("/profile")} // Navigate to Profile screen
+        />
+      </View>
+
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "#FFA001",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: "#161622",
-            borderTopWidth: 1,
-            borderTopColor: "#232533",
-            height: 84,
+            display: 'none',  // Hide the default tab bar at the bottom
           },
         }}
       >
@@ -50,60 +78,14 @@ const TabLayout = () => {
           options={{
             title: "Home",
             headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.home}
-                color={color}
-                name="Home"
-                focused={focused}
-              />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="bookmark"
-          options={{
-            title: "Bookmark",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.bookmark}
-                color={color}
-                name="Bookmark"
-                focused={focused}
-              />
-            ),
           }}
         />
 
-        <Tabs.Screen
-          name="create"
-          options={{
-            title: "Create",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.plus}
-                color={color}
-                name="Create"
-                focused={focused}
-              />
-            ),
-          }}
-        />
         <Tabs.Screen
           name="profile"
           options={{
             title: "Profile",
             headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.profile}
-                color={color}
-                name="Profile"
-                focused={focused}
-              />
-            ),
           }}
         />
       </Tabs>
