@@ -26,7 +26,6 @@ const TabIcon = ({ icon, color, name, focused, onPress }) => {
  );
 };
 
-
 const TabLayout = () => {
  const { loading, isLogged } = useGlobalContext();
  const currentPath = usePathname(); // Get the current path to determine which screen is active
@@ -59,16 +58,17 @@ const TabLayout = () => {
            <Image
              source={icons.logo} // Add your logo icon here
              resizeMode="contain"
-             style={{ width: 80, height: 80 }} // Adjust logo size
+             style={{ width: 80, height: 80, marginHorizontal: "auto"}} // Adjust logo size
            />
            {/* Profile Icon on the right */}
-           <TabIcon
+           {/* <TabIcon
              icon={icons.profile}
              color="#FFA001"
              name="Profile"
              focused={true}
              onPress={() => router.push("/profile")} // Navigate to Profile screen
-           />
+           /> */}
+           
          </>
        ) : (
          <>

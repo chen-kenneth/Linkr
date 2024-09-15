@@ -53,7 +53,7 @@ const SignIn = () => {
             className="w-[115px] h-[34px]"
           />
 
-          <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
+          <Text className="text-2xl font-semibold text-black mt-10 font-psemibold">
             Log in to Link
           </Text>
 

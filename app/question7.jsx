@@ -12,7 +12,7 @@ const SpotifyAuth = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <View className="w-full flex justify-center items-center h-full px-4">
-        <Text className="text-xl text-white font-bold mb-5">
+        <Text className="text-xl text-black font-bold mb-5">
           Authenticate with Spotify
         </Text>
 
