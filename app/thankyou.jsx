@@ -2,9 +2,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { router } from "expo-router"; // For navigating back to the home or another screen
 
-// Assuming you have a cake image in your assets folder
-import cakeImage from "../assets/images/cake.png"; // Replace with the correct path to the cake image in your project
-
 const ThankYouPage = () => {
   const handleContinue = () => {
     // Navigate to the next step, perhaps a dashboard or home page
