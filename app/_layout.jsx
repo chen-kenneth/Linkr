@@ -44,9 +44,15 @@ const RootLayout = () => {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="search/[query]" options={{ headerShown: false }} />
+        <Stack.Screen name="question1" options={{ headerShown: false }} />
+        <Stack.Screen name="question2" options={{ headerShown: false }} />
+        <Stack.Screen name="question3" options={{ headerShown: false }} />
+        <Stack.Screen name="question4" options={{ headerShown: false }} />
+        <Stack.Screen name="question5" options={{ headerShown: false }} />
+        <Stack.Screen name="thankyou" options={{ headerShown: false }} />
       </Stack>
     </GlobalProvider>
-  );
+  );  
 };
 
 export default RootLayout;

@@ -51,24 +51,7 @@ const Welcome = () => {
             resizeMode="contain"
           />
 
-          <View className="relative mt-5">
-            <Text className="text-3xl text-white font-bold text-center">
-              Discover Endless{"\n"}
-              Possibilities with{" "}
-              <Text className="text-secondary-200">Link</Text>
-            </Text>
-
-            <Image
-              source={images.path}
-              className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
-              resizeMode="contain"
-            />
-          </View>
-
-          <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with Link
-          </Text>
+          <View className="relative mt-5"></View>
 
           {/* Display location (optional) */}
           {location && (
@@ -86,7 +69,7 @@ const Welcome = () => {
           )}
 
           <CustomButton
-            title="Continue with Email"
+            title="Welcome to Linkr!"
             handlePress={() => router.push("/sign-in")}
             containerStyles="w-full mt-7"
           />

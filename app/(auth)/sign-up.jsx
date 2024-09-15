@@ -1,5 +1,6 @@
+// Updated SignUp.jsx (same as your provided code)
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link, router } from "expo-router"; // Import 'router' for navigation
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
@@ -21,6 +22,7 @@ const SignUp = () => {
   const submit = async () => {
     if (form.username === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
+      return; // Ensure we return if fields are empty
     }
 
     setSubmitting(true);
@@ -29,7 +31,8 @@ const SignUp = () => {
       setUser(result);
       setIsLogged(true);
 
-      router.replace("/home");
+      // Navigate to the first onboarding question (question1)
+      router.replace("/question1"); // Use router to navigate after successful sign up
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
@@ -80,7 +83,7 @@ const SignUp = () => {
 
           <CustomButton
             title="Sign Up"
-            handlePress={submit}
+            handlePress={submit} // Submit form on button press
             containerStyles="mt-7"
             isLoading={isSubmitting}
           />
@@ -89,10 +92,7 @@ const SignUp = () => {
             <Text className="text-lg text-gray-100 font-pregular">
               Have an account already?
             </Text>
-            <Link
-              href="/sign-in"
-              className="text-lg font-psemibold text-secondary"
-            >
+            <Link href="/sign-in" className="text-lg font-psemibold text-secondary">
               Login
             </Link>
           </View>

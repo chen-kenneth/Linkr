@@ -11,7 +11,7 @@ const AuthLayout = () => {
 
   return (
     <>
-      <Stack>
+    <Stack>
         <Stack.Screen
           name="sign-in"
           options={{
@@ -25,7 +25,6 @@ const AuthLayout = () => {
           }}
         />
       </Stack>
-
       <Loader isLoading={loading} />
       <StatusBar backgroundColor="#161622" style="light" />
     </>
