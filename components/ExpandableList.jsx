@@ -56,7 +56,7 @@ const ExpandableListNotification = () => {
 // This component handles the entire expandable list
 const ExpandableList = ({ data, toggleOn }) => {
   const [maxVisibleItems, setMaxVisibleItems] = useState(2); // Start by showing only 2 items
-  const [showAll, setShowAll] = useState(t); // State to track "Show All" toggle
+  const [showAll, setShowAll] = useState(true); // State to track "Show All" toggle
   const dragY = useRef(new Animated.Value(0)).current; // For tracking drag position
 
   // Calculate the number of items to show based on drag distance
@@ -110,7 +110,7 @@ const ExpandableList = ({ data, toggleOn }) => {
             ListEmptyComponent={() => (
               <View style={styles.emptyContainer}>
                 <Text className="text-center text-primary-200 font-psemibold">
-                  No data available
+                  No-one with similar interests
                 </Text>
               </View>
             )}
