@@ -14,7 +14,7 @@ const Question9 = () => {
       return;
     }
     // Navigate to the thank you page
-    router.replace("/question");
+    router.replace("/thankyou");
   };
 
   return (
