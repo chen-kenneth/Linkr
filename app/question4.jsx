@@ -4,17 +4,33 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { router } from "expo-router"; // Import 'router' for navigation
 
 import FormField from "../components/FormField"; // Assuming FormField is in components
+import { onboardUser } from "../lib/appwrite"; // Import the onboardUser function
 
 const Question4 = () => {
   const [favoriteSport, setFavoriteSport] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // To manage the submission state
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (favoriteSport === "") {
       alert("Please enter your favorite sport.");
       return;
     }
-    // Navigate to the next question (thank you or question5 if needed)
-    router.replace("/question5");
+
+    // Start submitting
+    setIsSubmitting(true);
+
+    try {
+      // Add favorite sport to the user's onboarding data
+      await onboardUser({ favoriteSport });
+
+      // Navigate to the next question (question5) once the sport is saved
+      router.replace("/question5");
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error("Onboarding error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -36,9 +52,12 @@ const Question4 = () => {
         {/* Button to navigate to the next question */}
         <TouchableOpacity
           onPress={handleNext}
-          className="bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5"
+          className={`bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5 ${isSubmitting ? "opacity-50" : ""}`}
+          disabled={isSubmitting} // Disable button while submitting
         >
-          <Text className="text-primary font-psemibold text-lg">Next</Text>
+          <Text className="text-primary font-psemibold text-lg">
+            {isSubmitting ? "Saving..." : "Next"}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

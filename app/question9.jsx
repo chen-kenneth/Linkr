@@ -2,19 +2,34 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TouchableOpacity } from "react-native";
 import { router } from "expo-router"; // Import 'router' for navigation
+import { onboardUser } from "../lib/appwrite"; // Import onboardUser function for saving data
 
 import FormField from "../components/FormField"; // Assuming FormField is in components
 
 const Question9 = () => {
   const [biggestDream, setBiggestDream] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // Manage submission state
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (biggestDream === "") {
       alert("Please describe your biggest dream.");
       return;
     }
-    // Navigate to the thank you page
-    router.replace("/thankyou");
+
+    setIsSubmitting(true); // Start the loading state
+
+    try {
+      // Add biggestDream to the user's onboarding data
+      await onboardUser({ biggestDream });
+
+      // Navigate to the thank you page after saving
+      router.replace("/thankyou");
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error("Onboarding error:", error);
+    } finally {
+      setIsSubmitting(false); // End the loading state
+    }
   };
 
   return (
@@ -36,9 +51,12 @@ const Question9 = () => {
         {/* Button to navigate to the thank you page */}
         <TouchableOpacity
           onPress={handleNext}
-          className="bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5"
+          className={`bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5 ${isSubmitting ? "opacity-50" : ""}`}
+          disabled={isSubmitting} // Disable the button while submitting
         >
-          <Text className="text-primary font-psemibold text-lg">Next</Text>
+          <Text className="text-primary font-psemibold text-lg">
+            {isSubmitting ? "Saving..." : "Next"}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

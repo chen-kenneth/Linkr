@@ -4,17 +4,33 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { router } from "expo-router"; // Import 'router' for navigation
 
 import FormField from "../components/FormField"; // Assuming FormField is in components
+import { onboardUser } from "../lib/appwrite"; // Import the onboardUser function
 
 const Question6 = () => {
   const [favoriteAnimal, setFavoriteAnimal] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // Manage the submission state
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (favoriteAnimal === "") {
       alert("Please enter your favorite animal.");
       return;
     }
-    // Navigate to the thank you page
-    router.replace("/question7");
+
+    // Start submitting
+    setIsSubmitting(true);
+
+    try {
+      // Add favoriteAnimal to the user's onboarding data
+      await onboardUser({ favoriteAnimal });
+
+      // Navigate to the next question (question7)
+      router.replace("/question7");
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error("Onboarding error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -33,12 +49,15 @@ const Question6 = () => {
           otherStyles="mb-5"
         />
 
-        {/* Button to navigate to the thank you page */}
+        {/* Button to navigate to the next question */}
         <TouchableOpacity
           onPress={handleNext}
-          className="bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5"
+          className={`bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5 ${isSubmitting ? "opacity-50" : ""}`}
+          disabled={isSubmitting} // Disable button while submitting
         >
-          <Text className="text-primary font-psemibold text-lg">Next</Text>
+          <Text className="text-primary font-psemibold text-lg">
+            {isSubmitting ? "Saving..." : "Next"}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
