@@ -14,13 +14,6 @@ const ThankYouPage = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <View className="w-full flex justify-center items-center h-full px-4">
-        {/* Image of the birthday cake */}
-        <Image
-          source={cakeImage}
-          className="w-[200px] h-[200px]"
-          resizeMode="contain"
-        />
-
         {/* Thank you message */}
         <Text className="text-2xl text-white font-bold text-center mt-5">
           You're in!
