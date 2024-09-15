@@ -79,14 +79,14 @@ const SpotifyAuth = () => {
           Authenticate with Spotify
         </Text>
 
-        {/* Button to start the Spotify OAuth flow */}
+        {/* Button to start the Spotify OAuth flow
         <TouchableOpacity
           onPress={() => promptAsync()}
           disabled={!request}
           className="bg-secondary rounded-xl min-h-[62px] w-full flex justify-center items-center mt-5"
         >
           <Text className="text-primary font-psemibold text-lg">Connect to Spotify</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Navigate to Question 8 if user skips Spotify auth */}
         <TouchableOpacity
