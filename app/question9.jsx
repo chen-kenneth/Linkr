@@ -5,31 +5,31 @@ import { router } from "expo-router"; // Import 'router' for navigation
 
 import FormField from "../components/FormField"; // Assuming FormField is in components
 
-const Question8 = () => {
-  const [occupationOrMajor, setOccupationOrMajor] = useState("");
+const Question9 = () => {
+  const [biggestDream, setBiggestDream] = useState("");
 
   const handleNext = () => {
-    if (occupationOrMajor === "") {
-      alert("Please enter your occupation or college major.");
+    if (biggestDream === "") {
+      alert("Please describe your biggest dream.");
       return;
     }
     // Navigate to the thank you page
-    router.replace("/question8");
+    router.replace("/question");
   };
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <View className="w-full flex justify-center items-center h-full px-4">
         <Text className="text-xl text-white font-bold mb-5">
-          What is your occupation or college major?
+          Describe your biggest dream
         </Text>
 
-        {/* FormField for entering occupation or college major */}
+        {/* FormField for entering description of biggest dream */}
         <FormField
-          title="Occupation or College Major"
-          value={occupationOrMajor}
-          placeholder="Enter your occupation or college major"
-          handleChangeText={(text) => setOccupationOrMajor(text)} // Update the state with user input
+          title="Biggest Dream"
+          value={biggestDream}
+          placeholder="Describe your biggest dream"
+          handleChangeText={(text) => setBiggestDream(text)} // Update the state with user input
           otherStyles="mb-5"
         />
 
@@ -45,4 +45,4 @@ const Question8 = () => {
   );
 };
 
-export default Question8;
+export default Question9;

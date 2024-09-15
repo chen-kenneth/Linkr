@@ -49,6 +49,10 @@ const RootLayout = () => {
         <Stack.Screen name="question3" options={{ headerShown: false }} />
         <Stack.Screen name="question4" options={{ headerShown: false }} />
         <Stack.Screen name="question5" options={{ headerShown: false }} />
+        <Stack.Screen name="question6" options={{ headerShown: false }} />
+        <Stack.Screen name="question7" options={{ headerShown: false }} />
+        <Stack.Screen name="question8" options={{ headerShown: false }} />
+        <Stack.Screen name="question9" options={{ headerShown: false }} />
         <Stack.Screen name="thankyou" options={{ headerShown: false }} />
       </Stack>
     </GlobalProvider>
